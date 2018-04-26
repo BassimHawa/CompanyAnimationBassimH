@@ -36,10 +36,9 @@ local scrollYSpeed = 3
 local function movelogo()
     logo.fill.effect = "filter.brightness"
     logo.fill.effect.intensity = 0.6
-    timer.performWithDelay(10000, "filter.brightness")
 end
 
-
+ timer.performWithDelay(10000, movelogo)
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
