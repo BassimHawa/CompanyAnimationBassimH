@@ -42,7 +42,7 @@ local function glow()
         brightness = brightness + 0.01
     end
 
-    if brightness >= 1 or brightness <= -0.2 then
+    if (brightness >= 1) or (brightness <= -0.2) then
         glowdirection = not glowdirection
     end
 
@@ -80,9 +80,20 @@ function scene:create( event )
     logoOutline.x = display.contentWidth/2
     logoOutline.y = display.contentHeight/2
 
+    --display the name of the company
+    textObject = display.newText( "Chubbienix Corp", display.contentWidth/2, 670, nil, 60 )
+    textObject:setTextColor(255/255, 0/255, 0/255)
+   
+    --display the name of the company again but slightly higher and with a different colour
+    --in order to make it look better
+    textObject2 = display.newText( "Chubbienix Corp", display.contentWidth/2, 680, nil, 60 )
+    textObject2:setTextColor(0/255, 255/255, 0/255)
+
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( logo )
     sceneGroup:insert( logoOutline )
+    sceneGroup:insert( textObject )
+    sceneGroup:insert( textObject2 )
 
 end -- function scene:create( event )
 
