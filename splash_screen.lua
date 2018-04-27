@@ -4,7 +4,7 @@
 -- splash_screen.lua
 -- Created by: Bassim Hawa
 -- Description: This is the splash screen of the game. It displays the 
--- company logo 
+-- company logo.
 -----------------------------------------------------------------------------------------
 
 -- Use Composer Library
@@ -140,7 +140,7 @@ function scene:hide( event )
     -- Called immediately after scene goes off screen.
     elseif ( phase == "did" ) then
         
-        -- stop the jungle sounds channel for this screen
+        -- stop the phoenix sounds channel for this screen
         audio.stop(PhoenixSoundsChannel)
     end
 
