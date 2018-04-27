@@ -24,21 +24,36 @@ local scene = composer.newScene( splash_screen )
  
 -- The local variables for this scene
 local logo
+local logoOutline
 local PhoenixSounds = audio.loadSound("Sounds/Edited Phoenix Roars.mp3")
 local PhoenixSoundsChannel
-local scrollXSpeed = -3
-local scrollYSpeed = 3
+local brightness = 0
+local glowdirection = false
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
 -- The function that moves the logo across the screen and spin
-local function movelogo()
-    logo.fill.effect = "filter.brightness"
-    logo.fill.effect.intensity = 0.6
+local function glow()
+    
+    if glowdirection then
+        brightness = brightness - 0.01
+    else
+        brightness = brightness + 0.01
+    end
+
+    if brightness >= 1 or brightness <= -0.2 then
+        glowdirection = not glowdirection
+    end
+
+    logoOutline.fill.effect = "filter.brightness"
+    logoOutline.fill.effect.intensity = brightness
 end
 
- timer.performWithDelay(10000, movelogo)
+local function gotoMainMenu()
+    composer.gotoScene( "main_menu" )
+end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -55,12 +70,19 @@ function scene:create( event )
     -- Insert the logo image
     logo = display.newImageRect("Images/Logo.png", 500, 500)
 
-    -- set the initial x and y position of logo
-    logo.x = 400
-    logo.y = 400
+    --Insert the logo outline image
+    logoOutline = display.newImageRect("Images/Logo-outline.png", 500, 500)
+
+    -- set the initial x and y position of logo and outline
+    logo.x = display.contentWidth/2
+    logo.y = display.contentHeight/2
+
+    logoOutline.x = display.contentWidth/2
+    logoOutline.y = display.contentHeight/2
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( logo )
+    sceneGroup:insert( logoOutline )
 
 end -- function scene:create( event )
 
@@ -87,8 +109,8 @@ function scene:show( event )
         -- start the splash screen music
         PhoenixSoundsChannel = audio.play(PhoenixSounds)
 
-        -- Call the movelogo function as soon as we enter the frame.
-        Runtime:addEventListener("enterFrame", movelogo)
+        -- Call the glow function as soon as we enter the frame.
+        Runtime:addEventListener("enterFrame", glow)
 
         -- Go to the main menu screen after the given time.
         timer.performWithDelay ( 3000, gotoMainMenu)          
@@ -131,7 +153,7 @@ function scene:destroy( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-
+    
     -----------------------------------------------------------------------------------------
 
 
@@ -151,6 +173,5 @@ scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 
 -----------------------------------------------------------------------------------------
-
 
 return scene
